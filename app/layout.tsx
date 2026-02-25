@@ -44,12 +44,16 @@ export default function RootLayout({
           {children}
           <Toaster
             position="bottom-right"
+            theme="dark"
             toastOptions={{
-              className: "glass border-white/10 text-white font-bold rounded-2xl",
+              className: "glass border-white/10 !text-white font-bold rounded-2xl",
               style: {
-                background: "rgba(2, 4, 10, 0.8)",
-                backdropFilter: "blur(12px)",
-              }
+                background: "rgba(10, 15, 30, 0.8)",
+                backdropFilter: "blur(16px)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                color: "white",
+              },
+              descriptionClassName: "!text-white/70",
             }}
           />
         </QueryProvider>

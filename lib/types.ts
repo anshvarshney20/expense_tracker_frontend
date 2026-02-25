@@ -42,6 +42,7 @@ export type Pot = {
 
 export type AIAnalysis = {
   summary: string;
+  savings_tip?: string;
   suggestions: {
     category: string;
     reduction: number;
@@ -51,6 +52,7 @@ export type AIAnalysis = {
   savings_rate: number;
   timeline_impact: string;
   savings_potential: number;
+  risk_level: string;
 };
 
 export type ExpenseSummary = {

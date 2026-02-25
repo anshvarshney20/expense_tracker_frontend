@@ -46,6 +46,7 @@ export function MarketingButton({
         <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            suppressHydrationWarning
             className={cn(
                 "inline-flex items-center justify-center gap-3 rounded-2xl font-black uppercase tracking-[0.2em] transition-all duration-300",
                 variants[variant],

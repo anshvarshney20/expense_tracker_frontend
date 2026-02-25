@@ -47,9 +47,9 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden font-sans">
+        <div suppressHydrationWarning className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden font-sans">
             {/* Background decoration */}
-            <div className="absolute top-0 left-0 w-full h-full -z-10">
+            <div suppressHydrationWarning className="absolute top-0 left-0 w-full h-full -z-10">
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px] animate-pulse" />
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[100px] animate-pulse" />
             </div>
@@ -58,8 +58,9 @@ export default function LoginPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="w-full max-w-md glass p-10 rounded-[32px] space-y-8 relative z-10"
+                suppressHydrationWarning
             >
-                <div className="text-center space-y-4">
+                <div suppressHydrationWarning className="text-center space-y-4">
                     <Link href="/" className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-accent text-black font-black text-2xl shadow-lg glow-primary font-heading">
                         Æ
                     </Link>

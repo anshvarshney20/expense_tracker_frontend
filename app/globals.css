@@ -195,3 +195,22 @@
 .perspective-1000 {
   perspective: 1000px;
 }
+
+/* Sonner Customization */
+[data-sonner-toast] {
+  --normal-bg: rgba(15, 20, 35, 0.9) !important;
+  --normal-border: rgba(255, 255, 255, 0.1) !important;
+  --normal-text: #ffffff !important;
+}
+
+[data-sonner-toast] [data-title] {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+}
+
+[data-sonner-toast] [data-description] {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 500 !important;
+}
