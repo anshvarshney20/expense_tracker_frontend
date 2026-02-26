@@ -52,14 +52,19 @@ export function StatCard({ label, value, subValue, trend, icon: Icon, color = 'p
     return (
         <Card className="border border-white/[0.03]">
             <div className="flex items-start justify-between gap-4">
-                <div className="space-y-4 min-w-0">
-                    <p className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground opacity-60 italic font-lato truncate">{label}</p>
+                <div className="space-y-4 flex-1 min-w-0">
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground opacity-60 italic font-lato">{label}</p>
                     {isLoading ? (
-                        <div className="h-10 w-24 bg-white/5 animate-pulse rounded-lg" />
+                        <div className="h-10 w-full max-w-[120px] bg-white/5 animate-pulse rounded-lg" />
                     ) : (
-                        <div className="flex flex-col gap-1">
-                            <h2 className="text-3xl md:text-3xl lg:text-4xl font-black tracking-tight font-poppins text-white leading-none truncate">
-                                {value}
+                        <div className="flex flex-col gap-1 w-full overflow-hidden">
+                            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-black tracking-tight font-poppins text-white leading-none whitespace-nowrap">
+                                {value.includes('.') ? (
+                                    <>
+                                        {value.split('.')[0]}
+                                        <span className="text-[0.6em] opacity-50">.{value.split('.')[1]}</span>
+                                    </>
+                                ) : value}
                             </h2>
                             {subValue && (
                                 <p className="text-[10px] font-black uppercase tracking-[0.1em] text-muted-foreground opacity-50 italic">
@@ -80,10 +85,10 @@ export function StatCard({ label, value, subValue, trend, icon: Icon, color = 'p
                     )}
                 </div>
                 <div className={cn(
-                    "w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all duration-700 group-hover:rotate-[15deg] group-hover:scale-110 border shadow-inner shrink-0",
+                    "w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center transition-all duration-700 group-hover:rotate-[15deg] group-hover:scale-110 border shadow-inner shrink-0",
                     colorClasses[color]
                 )}>
-                    <Icon size={24} className="opacity-90 drop-shadow-lg" />
+                    <Icon size={20} className="opacity-90 drop-shadow-lg" />
                 </div>
             </div>
         </Card>

@@ -125,7 +125,7 @@ export default function DashboardPage() {
             />
 
             {/* Stats Grid */}
-            <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <motion.div variants={item} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
                 <StatCard
                     label="Monthly Spending"
                     value={isSummaryLoading ? "---" : formatCurrency(Number(summary?.total_amount || 0), currency)}
@@ -255,7 +255,7 @@ export default function DashboardPage() {
                         {isExpensesLoading ? (
                             <div className="flex justify-center p-20"><Loader2 className="animate-spin text-primary/20" /></div>
                         ) : (
-                            recentExpenses?.map((item, i) => (
+                            recentExpenses?.items?.map((item, i) => (
                                 <motion.div
                                     key={item.id}
                                     whileHover={{ backgroundColor: 'rgba(255,255,255,0.02)' }}
@@ -285,7 +285,7 @@ export default function DashboardPage() {
                                 </motion.div>
                             ))
                         )}
-                        {!isExpensesLoading && recentExpenses?.length === 0 && (
+                        {!isExpensesLoading && recentExpenses?.items?.length === 0 && (
                             <div className="p-20 text-center">
                                 <p className="text-muted-foreground font-black uppercase tracking-widest text-xs opacity-50 italic">No expenses recorded in the current period.</p>
                             </div>

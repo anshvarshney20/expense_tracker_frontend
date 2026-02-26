@@ -65,8 +65,8 @@ export default function ForgotPasswordPage() {
                         <ArrowLeft size={20} />
                     </Link>
                     <div className="space-y-1">
-                        <h1 className="text-4xl font-black tracking-tighter font-heading uppercase">Reset Key</h1>
-                        <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] italic opacity-60">Initiate credential recovery protocol</p>
+                        <h1 className="text-4xl font-black tracking-tighter font-heading uppercase">Forgot Password</h1>
+                        <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] italic opacity-60">Recover your account access</p>
                     </div>
                 </div>
 
@@ -88,7 +88,7 @@ export default function ForgotPasswordPage() {
 
                             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Registered Email</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Email Address</label>
                                     <div className="relative group">
                                         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
                                             <Mail size={18} />
@@ -96,7 +96,7 @@ export default function ForgotPasswordPage() {
                                         <input
                                             {...register('email')}
                                             type="email"
-                                            placeholder="ALEXANDER@PROTOCOL.COM"
+                                            placeholder="YOUR@EMAIL.COM"
                                             className={cn(
                                                 "w-full pl-12 pr-4 py-4 bg-white/[0.03] border border-white/10 rounded-2xl focus:border-primary/50 focus:ring-1 focus:ring-primary/50 outline-none transition-all text-xs font-bold uppercase tracking-widest placeholder:opacity-20",
                                                 errors.email && "border-destructive/50"
@@ -135,13 +135,13 @@ export default function ForgotPasswordPage() {
                                 <CheckCircle2 size={40} />
                             </div>
                             <div className="space-y-2">
-                                <h3 className="text-xl font-black uppercase tracking-tighter">Handshake Initialized</h3>
+                                <h3 className="text-xl font-black uppercase tracking-tighter">Email Sent</h3>
                                 <p className="text-sm text-muted-foreground italic">Check your terminal or the box below for the recovery key.</p>
                             </div>
 
                             {resetToken && (
                                 <div className="p-6 bg-white/5 border border-white/10 rounded-2xl space-y-4">
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-primary">Recovery Key Generated:</p>
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-primary">Reset Token Generated:</p>
                                     <div className="p-3 bg-black rounded-lg border border-white/5 font-mono text-[10px] break-all select-all text-white/70">
                                         {resetToken}
                                     </div>
@@ -151,7 +151,7 @@ export default function ForgotPasswordPage() {
                                         size="md"
                                         className="w-full group"
                                     >
-                                        Execute Reset Protocol <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                        Reset Password Now <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                                     </MarketingButton>
                                 </div>
                             )}

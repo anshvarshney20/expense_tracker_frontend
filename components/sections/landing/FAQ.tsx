@@ -29,15 +29,15 @@ export function FAQ() {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
     return (
-        <section className="py-48 bg-black/40">
+        <section className="py-24 md:py-48 bg-black/40">
             <div className="container mx-auto px-6 md:px-10">
-                <div className="max-w-4xl mx-auto space-y-20">
-                    <div className="text-center space-y-6">
+                <div className="max-w-4xl mx-auto space-y-12 md:space-y-20">
+                    <div className="text-center space-y-4 md:space-y-6">
                         <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-primary italic">Intelligence Database</h2>
-                        <h3 className="text-5xl md:text-7xl font-black font-poppins uppercase tracking-tighter">COMMON QUERIES</h3>
+                        <h3 className="text-3xl sm:text-4xl md:text-7xl font-black font-heading uppercase tracking-tighter">COMMON QUERIES</h3>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-4 md:space-y-6">
                         {faqs.map((faq, i) => (
                             <Card
                                 key={i}
@@ -46,17 +46,17 @@ export function FAQ() {
                             >
                                 <button
                                     onClick={() => setActiveIndex(activeIndex === i ? null : i)}
-                                    className="w-full p-8 md:p-10 flex items-center justify-between text-left group"
+                                    className="w-full p-6 md:p-10 flex items-center justify-between text-left group gap-4"
                                 >
-                                    <div className="flex items-center gap-6">
-                                        <div className={`w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-muted-foreground group-hover:text-primary transition-colors ${activeIndex === i ? 'text-primary border-primary/20' : ''}`}>
-                                            <HelpCircle size={24} />
+                                    <div className="flex items-center gap-4 md:gap-6">
+                                        <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 ${activeIndex === i ? 'text-primary border-primary/20' : ''}`}>
+                                            <HelpCircle size={20} className="md:size-24" />
                                         </div>
-                                        <span className="text-xl font-black font-poppins text-white uppercase tracking-tight">{faq.question}</span>
+                                        <span className="text-base md:text-xl font-black font-heading text-white uppercase tracking-tight">{faq.question}</span>
                                     </div>
                                     <ChevronDown
-                                        size={24}
-                                        className={`text-muted-foreground transition-transform duration-500 ${activeIndex === i ? 'rotate-180 text-primary' : ''}`}
+                                        size={20}
+                                        className={`text-muted-foreground transition-transform duration-500 flex-shrink-0 ${activeIndex === i ? 'rotate-180 text-primary' : ''}`}
                                     />
                                 </button>
 
@@ -68,9 +68,9 @@ export function FAQ() {
                                             exit={{ height: 0, opacity: 0 }}
                                             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                                         >
-                                            <div className="px-10 pb-10 pt-0">
-                                                <div className="pl-16">
-                                                    <p className="text-lg font-medium text-muted-foreground leading-relaxed uppercase italic opacity-80 tracking-widest border-l-2 border-primary/20 pl-8">
+                                            <div className="px-6 pb-6 md:px-10 md:pb-10 pt-0">
+                                                <div className="pl-0 md:pl-16">
+                                                    <p className="text-xs md:text-lg font-medium text-muted-foreground leading-relaxed uppercase italic opacity-80 tracking-widest border-l-2 border-primary/20 pl-4 md:pl-8">
                                                         {faq.answer}
                                                     </p>
                                                 </div>

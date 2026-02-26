@@ -72,8 +72,8 @@ export default function RegisterPage() {
                         Æ
                     </Link>
                     <div className="space-y-1">
-                        <h1 className="text-4xl font-black tracking-tighter font-heading uppercase">Create Protocol</h1>
-                        <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] italic opacity-60">Join the elite financial intelligence network</p>
+                        <h1 className="text-4xl font-black tracking-tighter font-heading uppercase">Create Account</h1>
+                        <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] italic opacity-60">Start tracking your money smarter today</p>
                     </div>
                 </div>
 
@@ -91,7 +91,7 @@ export default function RegisterPage() {
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                     <div className="space-y-2.5">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Sovereign Identity</label>
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Full Name</label>
                         <div className="relative group">
                             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-secondary transition-colors">
                                 <User size={18} />
@@ -99,7 +99,7 @@ export default function RegisterPage() {
                             <input
                                 {...register('full_name')}
                                 type="text"
-                                placeholder="ALEXANDER V."
+                                placeholder="YOUR NAME"
                                 className={cn(
                                     "w-full pl-12 pr-4 py-3.5 bg-white/[0.03] border border-white/10 rounded-2xl focus:border-secondary/50 outline-none transition-all text-xs font-bold uppercase tracking-widest placeholder:opacity-20",
                                     errors.full_name && "border-destructive/50"
@@ -112,7 +112,7 @@ export default function RegisterPage() {
                     </div>
 
                     <div className="space-y-2.5">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Neural Address</label>
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Email Address</label>
                         <div className="relative group">
                             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-secondary transition-colors">
                                 <Mail size={18} />
@@ -120,7 +120,7 @@ export default function RegisterPage() {
                             <input
                                 {...register('email')}
                                 type="email"
-                                placeholder="ALEXANDER@PROTOCOL.COM"
+                                placeholder="YOUR@EMAIL.COM"
                                 className={cn(
                                     "w-full pl-12 pr-4 py-3.5 bg-white/[0.03] border border-white/10 rounded-2xl focus:border-secondary/50 outline-none transition-all text-xs font-bold uppercase tracking-widest placeholder:opacity-20",
                                     errors.email && "border-destructive/50"
@@ -134,7 +134,7 @@ export default function RegisterPage() {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2.5">
-                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Security Key</label>
+                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Password</label>
                             <input
                                 {...register('password')}
                                 type="password"
@@ -146,7 +146,7 @@ export default function RegisterPage() {
                             />
                         </div>
                         <div className="space-y-2.5">
-                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Verify Key</label>
+                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Confirm Password</label>
                             <input
                                 {...register('confirm_password')}
                                 type="password"
@@ -163,7 +163,7 @@ export default function RegisterPage() {
                     )}
 
                     <div className="space-y-2.5">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Neural Currency Node</label>
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Base Currency</label>
                         <div className="relative group">
                             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-secondary transition-colors">
                                 <Coins size={18} />
@@ -193,7 +193,7 @@ export default function RegisterPage() {
                             <Loader2 className="animate-spin" />
                         ) : (
                             <>
-                                Initialize Account
+                                Create Account
                                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                             </>
                         )}
@@ -202,9 +202,9 @@ export default function RegisterPage() {
 
                 <div className="text-center pt-2">
                     <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground italic">
-                        Session already active?{' '}
+                        Already have an account?{' '}
                         <Link href="/login" className="text-secondary font-black hover:underline ml-1">
-                            RESUME PROTOCOL
+                            SIGN IN
                         </Link>
                     </p>
                 </div>

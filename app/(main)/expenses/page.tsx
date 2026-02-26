@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     X,
@@ -16,13 +16,17 @@ import {
     ChevronRight,
     Loader2,
     AlertCircle,
-    CheckCircle2,
-    ArrowDownRight,
-    ArrowUpRight
+    Tag,
+    Download,
+    AlertTriangle,
+    FilterX,
+    CalendarDays,
+    ArrowUpDown,
+    Check
 } from 'lucide-react';
 import { cn, formatCurrency } from '@/lib/utils';
 import { format } from 'date-fns';
-import { useExpenses } from '@/hooks/useFinancialData';
+import { useExpenses, useCategories } from '@/hooks/useFinancialData';
 import { useAuth } from '@/hooks/useAuth';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
@@ -30,6 +34,7 @@ import { PageHeader } from '@/components/layout/PageHeader';
 import { Card } from '@/components/ui/Cards';
 // @ts-ignore
 import { toast } from 'sonner';
+import { CategoryManagement } from '@/components/sections/dashboard/CategoryManagement';
 
 const container = {
     hidden: { opacity: 0 },
@@ -48,14 +53,45 @@ const itemVar = {
 
 export default function ExpensesPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
+
+    // Advanced Filter State
+    const [search, setSearch] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState('');
+    const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+    const [avoidableOnly, setAvoidableOnly] = useState<boolean>(false);
+    const [startDate, setStartDate] = useState<string>('');
+    const [endDate, setEndDate] = useState<string>('');
+    const [page, setPage] = useState(1);
+    const [sortBy, setSortBy] = useState('date');
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
     const { user } = useAuth();
     const currency = user?.currency || 'USD';
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(search);
+            setPage(1);
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [search]);
+
     const queryClient = useQueryClient();
-    const { data: expenses, isLoading } = useExpenses();
+    const { data: expenses, isLoading } = useExpenses({
+        search_query: debouncedSearch || undefined,
+        category: categoryFilter || undefined,
+        avoidable: avoidableOnly || undefined,
+        start_date: startDate || undefined,
+        end_date: endDate || undefined,
+        skip: (page - 1) * 10,
+        limit: 10,
+        sort_by: sortBy,
+        sort_order: sortOrder === 'desc' ? -1 : 1
+    });
+    const { data: categories, isLoading: categoriesLoading } = useCategories();
 
     const deleteMutation = useMutation({
         mutationFn: (id: string) => api.delete(`/expenses/${id}`),
@@ -150,27 +186,140 @@ export default function ExpensesPage() {
                 }
             />
 
-            {/* Filters Bar */}
-            <motion.div variants={itemVar} className="flex flex-col lg:flex-row gap-6">
-                <div className="flex-1 relative group">
-                    <div className="absolute left-5 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
-                        <Search size={20} />
+            {/* Metrics Quick-View */}
+            {!isLoading && expenses && (
+                <motion.div variants={itemVar} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="glass p-6 rounded-[32px] border border-white/5 flex items-center justify-between group hover:border-primary/20 transition-all">
+                        <div>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-50 mb-1">Total Volume</p>
+                            <h3 className="text-2xl font-black text-white">{formatCurrency(expenses.total_amount, currency)}</h3>
+                        </div>
+                        <div className="w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center text-primary border border-primary/10">
+                            <ArrowUpDown size={20} />
+                        </div>
                     </div>
-                    <input
-                        type="text"
-                        placeholder="Search expenses..."
-                        className="w-full pl-14 pr-6 py-4 bg-white/5 border border-white/10 rounded-[20px] focus:border-primary/50 focus:ring-1 focus:ring-primary/50 outline-none transition-all font-bold text-sm tracking-tight placeholder:opacity-30"
-                    />
+                    <div className="glass p-6 rounded-[32px] border border-white/5 flex items-center justify-between group hover:border-red-500/20 transition-all">
+                        <div>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-50 mb-1">Impulse Volume</p>
+                            <h3 className="text-2xl font-black text-white">{formatCurrency(expenses.total_avoidable_amount, currency)}</h3>
+                        </div>
+                        <div className="w-12 h-12 rounded-2xl bg-red-500/5 flex items-center justify-center text-red-500 border border-red-500/10">
+                            <AlertTriangle size={20} />
+                        </div>
+                    </div>
+                    <div className="glass p-6 rounded-[32px] border border-white/5 flex items-center justify-between group hover:border-blue-500/20 transition-all">
+                        <div>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-50 mb-1">Total Entries</p>
+                            <h3 className="text-2xl font-black text-white">{expenses.total_count} Matches</h3>
+                        </div>
+                        <div className="w-12 h-12 rounded-2xl bg-blue-500/5 flex items-center justify-center text-blue-500 border border-blue-500/10">
+                            <Check size={20} />
+                        </div>
+                    </div>
+                </motion.div>
+            )}
+
+            {/* Advanced Filters Architecture */}
+            <motion.div variants={itemVar} className="space-y-6">
+                {/* Row 1: Search & Actions */}
+                <div className="flex flex-col xl:flex-row gap-6">
+                    <div className="flex-1 relative group">
+                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
+                            <Search size={20} />
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Identify specific transactions..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="w-full pl-14 pr-6 py-4 bg-white/5 border border-white/10 rounded-[20px] focus:border-primary/50 focus:ring-1 focus:ring-primary/50 outline-none transition-all font-bold text-sm tracking-tight placeholder:opacity-20"
+                        />
+                    </div>
+                    <div className="flex flex-wrap gap-4">
+                        <button className="flex items-center justify-center gap-3 px-8 py-4 bg-white/5 border border-white/10 rounded-[20px] hover:bg-white/10 text-xs font-black uppercase tracking-widest transition-all">
+                            <Download size={16} />
+                            Export
+                        </button>
+                        <button
+                            onClick={() => setIsCategoryModalOpen(true)}
+                            className="flex items-center justify-center gap-3 px-8 py-4 bg-white/5 border border-white/10 rounded-[20px] hover:bg-white/10 text-xs font-black uppercase tracking-widest transition-all"
+                        >
+                            <Tag size={16} />
+                            Manage
+                        </button>
+                    </div>
                 </div>
-                <div className="flex gap-4">
-                    <button className="flex-1 md:flex-none flex items-center justify-center gap-3 px-8 py-4 bg-white/5 border border-white/10 rounded-[20px] hover:bg-white/10 text-xs font-black uppercase tracking-widest transition-all">
-                        <Filter size={16} />
-                        Categories
-                    </button>
-                    <button className="flex-1 md:flex-none flex items-center justify-center gap-3 px-8 py-4 bg-white/5 border border-white/10 rounded-[20px] hover:bg-white/10 text-xs font-black uppercase tracking-widest transition-all">
-                        <Calendar size={16} />
-                        Date Range
-                    </button>
+
+                {/* Row 2: Granular Controls */}
+                <div className="flex flex-col lg:flex-row gap-4 p-6 glass rounded-[32px] border border-white/5">
+                    <div className="flex flex-1 flex-wrap gap-4">
+                        <div className="relative flex-1 min-w-[200px]">
+                            <select
+                                value={categoryFilter || ''}
+                                onChange={(e) => {
+                                    setCategoryFilter(e.target.value || null);
+                                    setPage(1);
+                                }}
+                                className="w-full px-6 py-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 text-[10px] font-black uppercase tracking-widest transition-all outline-none appearance-none cursor-pointer"
+                            >
+                                <option value="" className="bg-[#050505]">ALL CATEGORIES</option>
+                                {categories?.map(cat => (
+                                    <option key={cat.id} value={cat.name} className="bg-[#050505]">{cat.name.toUpperCase()}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="flex gap-2 items-center flex-1 min-w-[300px]">
+                            <div className="relative flex-1">
+                                <input
+                                    type="date"
+                                    value={startDate}
+                                    onChange={(e) => { setStartDate(e.target.value); setPage(1); }}
+                                    className="w-full px-6 py-3 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase transition-all outline-none"
+                                />
+                                <span className="absolute -top-2 left-4 px-2 py-0.5 bg-[#050505] text-[8px] font-black text-muted-foreground uppercase">From</span>
+                            </div>
+                            <div className="relative flex-1">
+                                <input
+                                    type="date"
+                                    value={endDate}
+                                    onChange={(e) => { setEndDate(e.target.value); setPage(1); }}
+                                    className="w-full px-6 py-3 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase transition-all outline-none"
+                                />
+                                <span className="absolute -top-2 left-4 px-2 py-0.5 bg-[#050505] text-[8px] font-black text-muted-foreground uppercase">To</span>
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={() => { setAvoidableOnly(!avoidableOnly); setPage(1); }}
+                            className={cn(
+                                "flex items-center gap-3 px-6 py-3 rounded-2xl border transition-all text-[10px] font-black uppercase tracking-widest",
+                                avoidableOnly
+                                    ? "bg-red-500/10 border-red-500/20 text-red-500"
+                                    : "bg-white/5 border-white/10 text-muted-foreground hover:bg-white/10"
+                            )}
+                        >
+                            <AlertTriangle size={14} />
+                            Impulse Only
+                        </button>
+                    </div>
+
+                    {(search || categoryFilter || avoidableOnly || startDate || endDate) && (
+                        <button
+                            onClick={() => {
+                                setSearch('');
+                                setCategoryFilter(null);
+                                setAvoidableOnly(false);
+                                setStartDate('');
+                                setEndDate('');
+                                setPage(1);
+                            }}
+                            className="flex items-center justify-center gap-3 px-6 py-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-red-500/10 hover:border-red-500/20 hover:text-red-500 text-[10px] font-black uppercase tracking-widest transition-all"
+                        >
+                            <FilterX size={14} />
+                            Clear
+                        </button>
+                    )}
                 </div>
             </motion.div>
 
@@ -181,10 +330,34 @@ export default function ExpensesPage() {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="border-b border-white/5 bg-white/[0.01]">
-                                    <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground opacity-50">Expense Name</th>
+                                    <th
+                                        onClick={() => {
+                                            setSortBy('title');
+                                            setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc');
+                                        }}
+                                        className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground opacity-50 cursor-pointer hover:text-primary transition-colors"
+                                    >
+                                        Expense Name {sortBy === 'title' && (sortOrder === 'desc' ? '↓' : '↑')}
+                                    </th>
                                     <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground opacity-50 hidden sm:table-cell">Category</th>
-                                    <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground opacity-50 hidden md:table-cell">Date</th>
-                                    <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground opacity-50">Amount</th>
+                                    <th
+                                        onClick={() => {
+                                            setSortBy('date');
+                                            setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc');
+                                        }}
+                                        className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground opacity-50 hidden md:table-cell cursor-pointer hover:text-primary transition-colors"
+                                    >
+                                        Date {sortBy === 'date' && (sortOrder === 'desc' ? '↓' : '↑')}
+                                    </th>
+                                    <th
+                                        onClick={() => {
+                                            setSortBy('amount');
+                                            setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc');
+                                        }}
+                                        className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground opacity-50 cursor-pointer hover:text-primary transition-colors"
+                                    >
+                                        Amount {sortBy === 'amount' && (sortOrder === 'desc' ? '↓' : '↑')}
+                                    </th>
                                     <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground opacity-50 text-right">Actions</th>
                                 </tr>
                             </thead>
@@ -198,7 +371,7 @@ export default function ExpensesPage() {
                                     </tr>
                                 ) : (
                                     <AnimatePresence mode="popLayout">
-                                        {expenses?.map((expense) => (
+                                        {expenses?.items?.map((expense) => (
                                             <motion.tr
                                                 key={expense.id}
                                                 layout
@@ -213,7 +386,12 @@ export default function ExpensesPage() {
                                                             <Receipt size={20} />
                                                         </div>
                                                         <div className="flex flex-col">
-                                                            <span className="font-black text-white text-lg tracking-tight group-hover:translate-x-1 transition-transform duration-500">{expense.title}</span>
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="font-black text-white text-lg tracking-tight group-hover:translate-x-1 transition-transform duration-500">{expense.title}</span>
+                                                                {expense.is_avoidable && (
+                                                                    <div className="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]" title="Impulse Purchase" />
+                                                                )}
+                                                            </div>
                                                             <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 sm:hidden mt-0.5">{expense.category}</span>
                                                         </div>
                                                     </div>
@@ -250,7 +428,7 @@ export default function ExpensesPage() {
                                         ))}
                                     </AnimatePresence>
                                 )}
-                                {!isLoading && expenses?.length === 0 && (
+                                {!isLoading && (!expenses || expenses.items.length === 0) && (
                                     <tr>
                                         <td colSpan={5} className="px-10 py-32 text-center">
                                             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground opacity-30 italic">No expenses found for this period.</p>
@@ -263,13 +441,25 @@ export default function ExpensesPage() {
 
                     {/* Pagination */}
                     <div className="p-8 md:p-10 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6 bg-white/[0.01]">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-40 italic">Audit scale: {expenses?.length || 0} entities</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-40 italic">
+                            Index: {(page - 1) * 10 + 1}-{Math.min(page * 10, expenses?.total_count || 0)}
+                        </p>
                         <div className="flex items-center gap-3">
-                            <button className="p-3 rounded-xl bg-white/5 border border-white/10 disabled:opacity-20 hover:bg-white/10 transition-all">
+                            <button
+                                onClick={() => setPage(p => Math.max(1, p - 1))}
+                                disabled={page === 1}
+                                className="p-3 rounded-xl bg-white/5 border border-white/10 disabled:opacity-20 hover:bg-white/10 transition-all"
+                            >
                                 <ChevronLeft size={18} />
                             </button>
-                            <div className="h-10 px-4 flex items-center justify-center rounded-xl bg-primary text-black font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/20">Index 01</div>
-                            <button className="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                            <div className="h-10 px-4 flex items-center justify-center rounded-xl bg-primary text-black font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/20">
+                                Page {page.toString().padStart(2, '0')}
+                            </div>
+                            <button
+                                onClick={() => setPage(p => p + 1)}
+                                disabled={!expenses || page * 10 >= expenses.total_count}
+                                className="p-3 rounded-xl bg-white/5 border border-white/10 disabled:opacity-20 hover:bg-white/10 transition-all"
+                            >
                                 <ChevronRight size={18} />
                             </button>
                         </div>
@@ -343,12 +533,24 @@ export default function ExpensesPage() {
                                                 required
                                                 className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:border-primary/50 outline-none transition-all text-white font-bold text-sm tracking-tight appearance-none cursor-pointer"
                                             >
-                                                <option value="Food" className="bg-[#050505]">SUBSISTENCE</option>
-                                                <option value="Transport" className="bg-[#050505]">TRANSPORT</option>
-                                                <option value="Housing" className="bg-[#050505]">HOUSING</option>
-                                                <option value="Entertainment" className="bg-[#050505]">ENTERTAINMENT</option>
-                                                <option value="Work" className="bg-[#050505]">UTILITIES</option>
-                                                <option value="Other" className="bg-[#050505]">OTHER</option>
+                                                {categoriesLoading ? (
+                                                    <option>Loading...</option>
+                                                ) : categories && categories.length > 0 ? (
+                                                    categories.map(cat => (
+                                                        <option key={cat.id} value={cat.name} className="bg-[#050505]">
+                                                            {cat.name.toUpperCase()}
+                                                        </option>
+                                                    ))
+                                                ) : (
+                                                    <>
+                                                        <option value="Food" className="bg-[#050505]">SUBSISTENCE</option>
+                                                        <option value="Transport" className="bg-[#050505]">TRANSPORT</option>
+                                                        <option value="Housing" className="bg-[#050505]">HOUSING</option>
+                                                        <option value="Entertainment" className="bg-[#050505]">ENTERTAINMENT</option>
+                                                        <option value="Utilities" className="bg-[#050505]">UTILITIES</option>
+                                                        <option value="Other" className="bg-[#050505]">OTHER</option>
+                                                    </>
+                                                )}
                                             </select>
                                         </div>
                                         <div className="space-y-3">
@@ -399,6 +601,10 @@ export default function ExpensesPage() {
                     </div>
                 )}
             </AnimatePresence>
+            <CategoryManagement
+                isOpen={isCategoryModalOpen}
+                onClose={() => setIsCategoryModalOpen(false)}
+            />
         </motion.div>
     );
 }

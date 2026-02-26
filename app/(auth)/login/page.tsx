@@ -66,7 +66,7 @@ export default function LoginPage() {
                     </Link>
                     <div className="space-y-1">
                         <h1 className="text-4xl font-black tracking-tighter font-heading uppercase">Welcome Back</h1>
-                        <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] italic opacity-60">Enter credentials to synchronize</p>
+                        <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] italic opacity-60">Sign in to your account</p>
                     </div>
                 </div>
 
@@ -84,7 +84,7 @@ export default function LoginPage() {
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <div className="space-y-3">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Neural Address</label>
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Email Address</label>
                         <div className="relative group">
                             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
                                 <Mail size={18} />
@@ -92,7 +92,7 @@ export default function LoginPage() {
                             <input
                                 {...register('email')}
                                 type="email"
-                                placeholder="ALEXANDER@PROTOCOL.COM"
+                                placeholder="YOUR@EMAIL.COM"
                                 className={cn(
                                     "w-full pl-12 pr-4 py-4 bg-white/[0.03] border border-white/10 rounded-2xl focus:border-primary/50 focus:ring-1 focus:ring-primary/50 outline-none transition-all text-xs font-bold uppercase tracking-widest placeholder:opacity-20",
                                     errors.email && "border-destructive/50"
@@ -106,14 +106,14 @@ export default function LoginPage() {
 
                     <div className="space-y-3">
                         <div className="flex items-center justify-between ml-1">
-                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic font-heading">Security Key</label>
+                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic font-heading">Password</label>
                             <MarketingButton
                                 onClick={() => router.push('/forgot-password')}
                                 variant="secondary"
                                 size="sm"
                                 className="!px-4 !py-2 !rounded-xl !text-[9px] opacity-70 hover:opacity-100"
                             >
-                                FORGOT KEY?
+                                FORGOT PASSWORD?
                             </MarketingButton>
                         </div>
                         <div className="relative group">
@@ -144,7 +144,7 @@ export default function LoginPage() {
                             <Loader2 className="animate-spin" />
                         ) : (
                             <>
-                                Initialize Session
+                                Sign In
                                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                             </>
                         )}
@@ -153,9 +153,9 @@ export default function LoginPage() {
 
                 <div className="text-center pt-2">
                     <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground italic">
-                        No neural link yet?{' '}
+                        Don't have an account?{' '}
                         <Link href="/register" className="text-primary hover:underline ml-1">
-                            INITIALIZE ACCOUNT
+                            CREATE ACCOUNT
                         </Link>
                     </p>
                 </div>

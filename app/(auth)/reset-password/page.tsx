@@ -55,8 +55,8 @@ function ResetPasswordForm() {
                 token,
                 new_password: values.password
             });
-            toast.success('Security protocol successful.', {
-                description: 'Your recovery key has been updated and synchronized.',
+            toast.success('Password updated successfully.', {
+                description: 'You can now sign in with your new password.',
             });
             router.push('/login');
         } catch (err: any) {
@@ -72,8 +72,8 @@ function ResetPasswordForm() {
                 <div className="w-20 h-20 bg-destructive/10 rounded-[32px] border border-destructive/20 flex items-center justify-center mx-auto text-destructive">
                     <ShieldAlert size={40} />
                 </div>
-                <h3 className="text-xl font-black uppercase tracking-tighter text-destructive">Invalid Handshake</h3>
-                <p className="text-sm text-muted-foreground italic">No recovery token was detected. Please relaunch the reset protocol from your secure mail.</p>
+                <h3 className="text-xl font-black uppercase tracking-tighter text-destructive">Invalid Token</h3>
+                <p className="text-sm text-muted-foreground italic">No recovery token was detected. Please relaunch the reset process from your email.</p>
             </div>
         );
     }
@@ -81,7 +81,7 @@ function ResetPasswordForm() {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">New Security Key</label>
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">New Password</label>
                 <div className="relative group">
                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
                         <Lock size={18} />
@@ -102,7 +102,7 @@ function ResetPasswordForm() {
             </div>
 
             <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Confirm Security Key</label>
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic ml-1 font-heading">Confirm New Password</label>
                 <div className="relative group">
                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
                         <Lock size={18} />
@@ -137,7 +137,7 @@ function ResetPasswordForm() {
                     <Loader2 className="animate-spin" />
                 ) : (
                     <>
-                        Synchronize New Key
+                        Update Password
                         <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                     </>
                 )}
@@ -160,8 +160,8 @@ export default function ResetPasswordPage() {
                 className="w-full max-w-md glass p-10 rounded-[32px] space-y-8 relative z-10"
             >
                 <div className="text-center space-y-2">
-                    <h1 className="text-4xl font-black tracking-tighter font-heading uppercase">Key Override</h1>
-                    <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] italic opacity-60">Establish new security parameters</p>
+                    <h1 className="text-4xl font-black tracking-tighter font-heading uppercase">Reset Password</h1>
+                    <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] italic opacity-60">Enter your new password below</p>
                 </div>
 
                 <div className="h-px bg-white/5 w-full" />

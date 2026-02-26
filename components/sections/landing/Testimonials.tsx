@@ -34,38 +34,38 @@ const testimonials = [
 
 export function Testimonials() {
     return (
-        <section className="py-48 bg-black overflow-hidden relative">
+        <section className="py-24 md:py-48 bg-black overflow-hidden relative">
             <div className="absolute top-0 left-0 w-full h-px bg-white/[0.03]" />
 
-            <div className="container mx-auto px-6 md:px-10 mb-32">
-                <div className="flex flex-col md:flex-row items-end justify-between gap-10">
-                    <div className="max-w-2xl space-y-6">
+            <div className="container mx-auto px-6 md:px-10 mb-16 md:mb-32">
+                <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-8 md:gap-10 text-center md:text-left">
+                    <div className="max-w-2xl space-y-4 md:space-y-6">
                         <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-accent italic">Sovereign Validation</h2>
-                        <h3 className="text-5xl md:text-7xl font-black font-poppins uppercase tracking-tighter leading-none text-white">THE INTELLIGENCE <br /> HAS SPOKEN</h3>
+                        <h3 className="text-4xl md:text-7xl font-black font-heading uppercase tracking-tighter leading-none text-white">THE INTELLIGENCE <br className="hidden sm:block" /> HAS SPOKEN</h3>
                     </div>
-                    <div className="flex gap-2">
-                        {[1, 2, 3, 4, 5].map((_, i) => <Star key={i} className="text-primary fill-primary" size={20} />)}
+                    <div className="flex gap-1.5 md:gap-2">
+                        {[1, 2, 3, 4, 5].map((_, i) => <Star key={i} className="text-primary fill-primary size-4 md:size-5" />)}
                     </div>
                 </div>
             </div>
 
-            <div className="flex flex-nowrap gap-10 animate-infinite-scroll">
+            <div className="flex flex-nowrap gap-6 md:gap-10 animate-infinite-scroll">
                 {[...testimonials, ...testimonials].map((t, i) => (
                     <motion.div
                         key={i}
-                        className="flex-shrink-0 w-[400px]"
+                        className="flex-shrink-0 w-[300px] md:w-[400px]"
                     >
-                        <Card className="hover:border-primary/30 transition-all p-10 h-full bg-white/[0.01] flex flex-col justify-between space-y-8">
-                            <Quote className="text-primary opacity-20" size={40} />
-                            <p className="text-lg font-black italic leading-relaxed text-white/90">
+                        <Card className="hover:border-primary/30 transition-all p-6 md:p-10 h-full bg-white/[0.01] flex flex-col justify-between space-y-6 md:space-y-8">
+                            <Quote className="text-primary opacity-20 size-8 md:size-10" />
+                            <p className="text-base md:text-lg font-black italic leading-relaxed text-white/90">
                                 "{t.content}"
                             </p>
-                            <div className="pt-8 border-t border-white/5 flex items-center justify-between">
-                                <div>
-                                    <h5 className="text-sm font-black font-poppins text-white uppercase tracking-widest">{t.name}</h5>
-                                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest italic">{t.role}</p>
+                            <div className="pt-6 md:pt-8 border-t border-white/5 flex items-center justify-between gap-4">
+                                <div className="min-w-0">
+                                    <h5 className="text-xs md:text-sm font-black font-heading text-white uppercase tracking-widest truncate">{t.name}</h5>
+                                    <p className="text-[9px] md:text-[10px] font-bold text-muted-foreground uppercase tracking-widest italic truncate">{t.role}</p>
                                 </div>
-                                <div className="px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest">
+                                <div className="flex-shrink-0 px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl bg-primary/10 border border-primary/20 text-primary text-[8px] md:text-[10px] font-black uppercase tracking-widest">
                                     {t.metrics}
                                 </div>
                             </div>

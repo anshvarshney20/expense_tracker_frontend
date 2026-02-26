@@ -8,18 +8,18 @@ import { MarketingButton } from '@/components/ui/MarketingButton';
 
 const values = [
     {
-        title: 'Capital Sovereignty',
-        desc: 'We believe the individual should have ultimate authority and oversight over their capital flows, free from the friction of traditional tracking.',
+        title: 'Financial Freedom',
+        desc: 'We believe everyone should have complete control over their money, without the stress of manual tracking.',
         icon: Shield
     },
     {
-        title: 'Neural Efficiency',
-        desc: 'The difference between linear tracking and neural auditing is 42%. We optimize your future by auditing your behavioural drift.',
+        title: 'AI-Driven Savings',
+        desc: 'Our AI finds savings opportunities you might miss, helping you reach your goals up to 42% faster than traditional methods.',
         icon: Brain
     },
     {
-        title: 'Global Connectivity',
-        desc: 'Intelligence knows no borders. Our infrastructure synchronises with over 150 currencies and thousands of global financial nodes.',
+        title: 'Global Reach',
+        desc: 'Our platform works across 150+ currencies and thousands of banks worldwide, keeping your money synced wherever you are.',
         icon: Globe
     }
 ];
@@ -32,17 +32,17 @@ export default function AboutPage() {
                 <div className="flex flex-col lg:flex-row items-center gap-32 mb-64">
                     <div className="flex-1 space-y-12">
                         <div className="space-y-6 text-center lg:text-left">
-                            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-primary italic">The Manifesto</h2>
-                            <h1 className="text-6xl md:text-8xl font-black font-poppins uppercase tracking-tighter leading-none text-white">THE ARCHITECTS OF <br /> <span className="text-accent italic">SOVEREIGNTY</span></h1>
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-primary italic">Our Story</h2>
+                            <h1 className="text-6xl md:text-8xl font-black font-poppins uppercase tracking-tighter leading-none text-white">THE FUTURE OF <br /> <span className="text-accent italic">PERSONAL FINANCE</span></h1>
                         </div>
                         <p className="text-xl md:text-2xl text-muted-foreground font-medium opacity-80 leading-relaxed italic max-w-2xl border-l-2 border-primary/20 pl-8">
-                            Æquitas was founded on a singular premise: Traditional personal finance is broken.
-                            It focuses on the past—the log, the history, the failure.
-                            We built an intelligence layer that focuses on the future—the optimization, the warp, THE GOAL.
+                            Æquitas was founded on a simple idea: Managing money shouldn't be a chore.
+                            While others focus on where your money went, we focus on where it can take you.
+                            We built a smart platform that prioritizes your goals and your future.
                         </p>
                         <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                            <div className="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white italic">Mission: Alpha Acceleration</div>
-                            <div className="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white italic">Infrastructure: Neural Cortex v2.0</div>
+                            <div className="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white italic">Goal: Financial Independence</div>
+                            <div className="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white italic">Powered by: Smart AI v2.0</div>
                         </div>
                     </div>
                     <div className="flex-1 w-full relative">
@@ -64,8 +64,8 @@ export default function AboutPage() {
                 {/* Values Grid */}
                 <section className="mb-64">
                     <div className="text-center mb-32 space-y-6">
-                        <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-accent italic">Core Directives</h2>
-                        <h3 className="text-5xl md:text-7xl font-black font-poppins uppercase tracking-tighter">OUR ARCHITECTURE</h3>
+                        <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-accent italic">Our Values</h2>
+                        <h3 className="text-5xl md:text-7xl font-black font-poppins uppercase tracking-tighter">WHY WE BUILD</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                         {values.map((v, i) => (
@@ -87,14 +87,14 @@ export default function AboutPage() {
                 {/* Timeline Section */}
                 <section className="mb-64">
                     <div className="text-center mb-32 space-y-6">
-                        <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-secondary italic">Evolutionary Log</h2>
-                        <h3 className="text-5xl md:text-7xl font-black font-poppins uppercase tracking-tighter">PROTOCOL TIMELINE</h3>
+                        <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-secondary italic">Our Progress</h2>
+                        <h3 className="text-5xl md:text-7xl font-black font-poppins uppercase tracking-tighter">OUR JOURNEY</h3>
                     </div>
                     <div className="max-w-4xl mx-auto space-y-10">
                         {[
-                            { year: '2024', event: 'Initial Seed: The first neural ledger prototype is indexed.' },
-                            { year: '2025', event: 'Phase 1: Cortex AI engine achieves 90% drift detection accuracy.' },
-                            { year: '2026', event: 'Global Launch: Æquitas v2.0 goes live for the elite sovereign community.' }
+                            { year: '2024', event: 'The first version of our smart tracking engine is built.' },
+                            { year: '2025', event: 'AI engine reaches 90% accuracy in predicting savings opportunities.' },
+                            { year: '2026', event: 'Global Launch: Æquitas v2.0 goes live for users worldwide.' }
                         ].map((t, i) => (
                             <motion.div
                                 key={i}
@@ -120,14 +120,14 @@ export default function AboutPage() {
                 <section className="py-48 text-center bg-white/[0.01] rounded-[64px] border border-white/5 relative overflow-hidden">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[600px] bg-secondary/5 rounded-full blur-[160px] -z-10" />
                     <div className="max-w-3xl mx-auto space-y-10">
-                        <h2 className="text-5xl md:text-7xl font-black font-poppins uppercase tracking-tighter leading-none text-white">JOIN THE <br /> <span className="text-secondary italic">INTELLECTUAL ELITE</span></h2>
+                        <h2 className="text-5xl md:text-7xl font-black font-poppins uppercase tracking-tighter leading-none text-white">JOIN OUR <br /> <span className="text-secondary italic">COMMUNITY</span></h2>
                         <p className="text-sm font-medium uppercase tracking-[0.3em] text-muted-foreground opacity-60 italic">
-                            Your journey towards absolute capital sovereignty begins here.
-                            Initialize your protocol and audit your path.
+                            Your journey towards financial freedom starts here.
+                            Create your account and start saving today.
                         </p>
                         <div className="pt-8">
                             <MarketingButton href="/register" size="lg" icon={<ArrowRight size={20} />}>
-                                Initialize Protocol
+                                Get Started for Free
                             </MarketingButton>
                         </div>
                     </div>

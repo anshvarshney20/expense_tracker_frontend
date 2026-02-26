@@ -21,21 +21,21 @@ export default function ContactPage() {
                         className="space-y-12"
                     >
                         <div className="space-y-6">
-                            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-secondary italic">Neural Handshake</h2>
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-secondary italic">Contact Us</h2>
                             <h1 className="text-6xl md:text-8xl font-black font-poppins uppercase tracking-tighter leading-[0.85] text-white">
-                                LET'S <br />
-                                <span className="text-secondary italic">CONNECT.</span>
+                                GET IN <br />
+                                <span className="text-secondary italic">TOUCH.</span>
                             </h1>
                             <p className="text-xl text-muted-foreground font-medium italic opacity-70 leading-relaxed max-w-lg">
-                                Whether you're an individual seeker or an enterprise architect, our neural links are open for synchronization.
+                                Have a question or need help? We're here for you. Reach out and our team will get back to you shortly.
                             </p>
                         </div>
 
                         <div className="space-y-8">
                             {[
-                                { label: "Intelligence Hub", value: "HQ-01: San Francisco, CA", icon: Globe },
-                                { label: "Neural Address", value: "hello@aequitas.ai", icon: Mail },
-                                { label: "Crisis Vector", value: "+1 (555) 000-INTELL", icon: MessageSquare },
+                                { label: "Office Location", value: "San Francisco, CA", icon: Globe },
+                                { label: "Email Support", value: "hello@aequitas.ai", icon: Mail },
+                                { label: "Phone Support", value: "+1 (555) 000-1234", icon: MessageSquare },
                             ].map((item, i) => (
                                 <div key={i} className="flex items-center gap-6 group">
                                     <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-secondary border border-white/10 group-hover:scale-110 transition-transform">
@@ -58,14 +58,14 @@ export default function ContactPage() {
                         className="w-full glass p-10 md:p-14 rounded-[48px] border-white/5 shadow-2xl space-y-10"
                     >
                         <div className="space-y-2">
-                            <h3 className="text-2xl font-black font-poppins text-white uppercase tracking-tight">Transmission Form</h3>
-                            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest italic opacity-40">All fields are logged for audit clarity</p>
+                            <h3 className="text-2xl font-black font-poppins text-white uppercase tracking-tight">Contact Form</h3>
+                            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest italic opacity-40">We'll get back to you within 24 hours</p>
                         </div>
 
                         <form className="space-y-8">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1">Identity</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1">Name</label>
                                     <input
                                         type="text"
                                         placeholder="YOUR NAME"
@@ -73,35 +73,35 @@ export default function ContactPage() {
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1">Address</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1">Email</label>
                                     <input
                                         type="email"
-                                        placeholder="YOUR@NODE.COM"
+                                        placeholder="YOUR@EMAIL.COM"
                                         className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:border-secondary/50 outline-none transition-all text-white font-bold text-xs tracking-widest"
                                     />
                                 </div>
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1">Protocol Type</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1">Subject</label>
                                 <select className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:border-secondary/50 outline-none transition-all text-white font-bold text-xs tracking-widest appearance-none cursor-pointer">
-                                    <option className="bg-[#050505]">GENERAL INQUIRY</option>
-                                    <option className="bg-[#050505]">ENTERPRISE ARCHITECTURE</option>
-                                    <option className="bg-[#050505]">PRESS TRANSMISSION</option>
+                                    <option className="bg-[#050505]">GENERAL QUESTION</option>
+                                    <option className="bg-[#050505]">BUSINESS PARTNERSHIP</option>
+                                    <option className="bg-[#050505]">MEDIA INQUIRY</option>
                                 </select>
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1">Message Payload</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1">Message</label>
                                 <textarea
                                     rows={4}
-                                    placeholder="DESCRIBE YOUR MISSION..."
+                                    placeholder="HOW CAN WE HELP?"
                                     className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:border-secondary/50 outline-none transition-all text-white font-bold text-xs tracking-widest resize-none"
                                 />
                             </div>
 
                             <button className="w-full h-18 bg-secondary text-white font-black rounded-2xl hover:scale-[1.02] active:scale-95 transition-all text-xs uppercase tracking-[0.4em] flex items-center justify-center gap-4 shadow-xl glow-secondary">
-                                SEND TRANSMISSION
+                                SEND MESSAGE
                                 <ArrowRight size={20} />
                             </button>
                         </form>
